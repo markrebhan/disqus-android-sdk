@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/DisqusAndroidSDK.iml" filepath="$PROJECT_DIR$/DisqusAndroidSDK.iml" />
+      <module fileurl="file://$PROJECT_DIR$/demo/demo.iml" filepath="$PROJECT_DIR$/demo/demo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/disqus-sdk/disqus-sdk.iml" filepath="$PROJECT_DIR$/disqus-sdk/disqus-sdk.iml" />
+    </modules>
+  </component>
+</project>
+
