@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">disqus-sdk</string>
+    <string name="reply">Reply</string>
+    <string name="share">Share</string>
+    <string name="login">Login</string>
+    <string name="favorite">Favorite</string>
+    <string name="join">Join the discussion...</string>
 </resources>

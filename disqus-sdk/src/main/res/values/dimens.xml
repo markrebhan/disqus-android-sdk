@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="padding_card_item">8dp</dimen>
+    <dimen name="margin_small">4dp</dimen>
+    <dimen name="text_main">15dp</dimen>
+    <dimen name="text_support">13dp</dimen>
+    <dimen name="button_support_height">24dp</dimen>
+
+</resources>

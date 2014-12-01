@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/blue"
+    android:padding="@dimen/padding_card_item">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        
+        <com.mrebhan.disqus.widgets.TextViewBoldMedium
+            android:id="@+id/txt_comments"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_main"
+            android:textColor="@color/white"
+            tools:text="2234 Comments"/>
+
+        <Spinner
+            android:id="@+id/spn_menu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:dropDownSelector="@color/white"
+            android:visibility="gone"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_main"
+            android:textColor="@color/white"
+            android:text="@string/login"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"/>
+        
+        
+        </RelativeLayout>
+    
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/white"
+        android:layout_marginBottom="@dimen/margin_small"
+        android:layout_marginTop="@dimen/margin_small"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Spinner
+            android:id="@+id/spn_sort_by"
+            android:dropDownSelector="@color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <LinearLayout
+            android:id="@+id/view_favorite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true">
+
+            <com.mrebhan.disqus.widgets.TextViewBoldMedium
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_support"
+                android:textColor="@color/white"
+                android:text="@string/favorite"/>
+
+            <!--TODO add favorite asset-->
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/view_share"
+            android:layout_toLeftOf="@+id/view_favorite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/margin_small"
+            android:orientation="horizontal">
+
+            <com.mrebhan.disqus.widgets.TextViewBoldMedium
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_support"
+                android:textColor="@color/white"
+                android:text="@string/share"/>
+
+            <!--TODO add share asset-->
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+</LinearLayout>

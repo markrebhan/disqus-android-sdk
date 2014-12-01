@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/padding_card_item"
+    android:background="#FFFFFF">
+
+    <com.mrebhan.disqus.widgets.ImageAvatarView
+        android:id="@+id/img_avatar"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="@dimen/padding_card_item"
+        android:layout_marginRight="@dimen/padding_card_item"
+        android:background="@drawable/no_avatar_92"/>
+
+    <LinearLayout
+        android:id="@+id/layout_top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_small"
+        android:layout_toRightOf="@id/img_avatar"
+        android:layout_toEndOf="@id/img_avatar">
+
+        <com.mrebhan.disqus.widgets.TextViewBoldMedium
+            android:id="@+id/txt_user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/blue"
+            android:textSize="@dimen/text_support"
+            tools:text="Ubermensch"/>
+
+        <!--TODO add reply image-->
+        <ImageView
+            android:id="@+id/img_reply"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_small"
+            android:layout_marginRight="@dimen/margin_small"
+            android:layout_marginStart="@dimen/margin_small"
+            android:layout_marginEnd="@dimen/margin_small"/>
+
+        <com.mrebhan.disqus.widgets.TextViewLight
+            android:id="@+id/txt_reply_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_support"
+            android:textColor="@color/text_support"
+            tools:text="fuziontech"/>
+
+        <View
+            android:layout_width="2dp"
+            android:layout_height="2dp"
+            android:background="@color/text_support"
+            android:layout_marginLeft="@dimen/padding_card_item"
+            android:layout_marginRight="@dimen/padding_card_item"
+            android:layout_marginStart="@dimen/padding_card_item"
+            android:layout_marginEnd="@dimen/padding_card_item"
+            android:layout_gravity="center_vertical"/>
+
+        <com.mrebhan.disqus.widgets.TextViewLight
+            android:id="@+id/txt_time_ago"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_support"
+            tools:text="13 Days Ago"/>
+
+        </LinearLayout>
+
+    <com.mrebhan.disqus.widgets.TextViewLight
+        android:id="@+id/txt_comment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/img_avatar"
+        android:layout_toRightOf="@+id/img_avatar"
+        android:layout_below="@+id/layout_top"
+        android:layout_marginBottom="@dimen/margin_small"
+        android:textSize="@dimen/text_main"
+        android:textColor="@color/black"
+        tools:text="Here is my comment about some random stuff that I disagree about. This is my outlet where I can express my rage."/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/img_avatar"
+        android:layout_toEndOf="@id/img_avatar"
+        android:layout_below="@id/txt_comment"
+        android:layout_marginBottom="@dimen/margin_small">
+
+        <LinearLayout
+            android:id="@+id/view_up_vote"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <com.mrebhan.disqus.widgets.TextViewLight
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingRight="@dimen/padding_card_item"
+                android:paddingEnd="@dimen/padding_card_item"
+                android:textSize="@dimen/text_support"
+                android:textColor="@color/text_support"
+                tools:text="53"/>
+
+            <!--TODO add up vote asset-->
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/padding_card_item"/>
+
+            </LinearLayout>
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="16dp"
+            android:background="@color/text_support"
+            android:layout_gravity="center_vertical"/>
+
+        <!--TODO add down vote asset-->
+        <ImageView
+            android:id="@+id/view_down_vote"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/padding_card_item"/>
+
+        <View
+            android:layout_width="2dp"
+            android:layout_height="2dp"
+            android:background="@color/text_support"
+            android:layout_gravity="center_vertical"/>
+
+        <com.mrebhan.disqus.widgets.TextViewLight
+            android:id="@+id/btn_reply"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/padding_card_item"
+            android:paddingRight="@dimen/padding_card_item"
+            android:textSize="@dimen/text_support"
+            android:textColor="@color/text_support"
+            android:text="@string/reply"/>
+
+        <View
+            android:layout_width="2dp"
+            android:layout_height="2dp"
+            android:background="@color/text_support"
+            android:layout_gravity="center_vertical"/>
+
+        <com.mrebhan.disqus.widgets.TextViewLight
+            android:id="@+id/btn_share"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/padding_card_item"
+            android:paddingRight="@dimen/padding_card_item"
+            android:textSize="@dimen/text_support"
+            android:textColor="@color/text_support"
+            android:text="@string/share"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

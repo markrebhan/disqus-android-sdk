@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:padding="@dimen/padding_card_item">
+
+    <com.mrebhan.disqus.widgets.ImageAvatarView
+        android:id="@+id/img_avatar"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="@dimen/padding_card_item"
+        android:layout_marginRight="@dimen/padding_card_item"
+        android:background="@drawable/no_avatar_92"/>
+
+    <com.mrebhan.disqus.widgets.EditText
+        android:id="@+id/edit_text_comment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:background="@drawable/background_edit"
+        android:hint="@string/join"
+        android:textColorHint="@color/text_support"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_main"/>
+
+</LinearLayout>
