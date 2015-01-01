@@ -81,12 +81,12 @@
         tools:text="Here is my comment about some random stuff that I disagree about. This is my outlet where I can express my rage."/>
 
     <LinearLayout
+        android:id="@+id/layout_bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/img_avatar"
         android:layout_toEndOf="@id/img_avatar"
-        android:layout_below="@id/txt_comment"
-        android:layout_marginBottom="@dimen/margin_small">
+        android:layout_below="@id/txt_comment">
 
         <LinearLayout
             android:id="@+id/view_up_vote"
@@ -123,38 +123,47 @@
             android:layout_height="wrap_content"
             android:paddingLeft="@dimen/padding_card_item"/>
 
-        <View
-            android:layout_width="2dp"
-            android:layout_height="2dp"
-            android:background="@color/text_support"
-            android:layout_gravity="center_vertical"/>
+        <!--<View-->
+            <!--android:layout_width="2dp"-->
+            <!--android:layout_height="2dp"-->
+            <!--android:background="@color/text_support"-->
+            <!--android:layout_gravity="center_vertical"/>-->
 
-        <com.mrebhan.disqus.widgets.TextViewLight
-            android:id="@+id/btn_reply"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/padding_card_item"
-            android:paddingRight="@dimen/padding_card_item"
-            android:textSize="@dimen/text_support"
-            android:textColor="@color/text_support"
-            android:text="@string/reply"/>
+        <!--<com.mrebhan.disqus.widgets.TextViewLight-->
+            <!--android:id="@+id/btn_reply"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:paddingLeft="@dimen/padding_card_item"-->
+            <!--android:paddingRight="@dimen/padding_card_item"-->
+            <!--android:textSize="@dimen/text_support"-->
+            <!--android:textColor="@color/text_support"-->
+            <!--android:text="@string/reply"/>-->
 
-        <View
-            android:layout_width="2dp"
-            android:layout_height="2dp"
-            android:background="@color/text_support"
-            android:layout_gravity="center_vertical"/>
+        <!--<View-->
+            <!--android:layout_width="2dp"-->
+            <!--android:layout_height="2dp"-->
+            <!--android:background="@color/text_support"-->
+            <!--android:layout_gravity="center_vertical"/>-->
 
-        <com.mrebhan.disqus.widgets.TextViewLight
-            android:id="@+id/btn_share"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/padding_card_item"
-            android:paddingRight="@dimen/padding_card_item"
-            android:textSize="@dimen/text_support"
-            android:textColor="@color/text_support"
-            android:text="@string/share"/>
+        <!--<com.mrebhan.disqus.widgets.TextViewLight-->
+            <!--android:id="@+id/btn_share"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:paddingLeft="@dimen/padding_card_item"-->
+            <!--android:paddingRight="@dimen/padding_card_item"-->
+            <!--android:textSize="@dimen/text_support"-->
+            <!--android:textColor="@color/text_support"-->
+            <!--android:text="@string/share"/>-->
 
     </LinearLayout>
+
+    <ImageView
+        android:id="@+id/post_menu"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/three_bottom_menu"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignBottom="@id/layout_bottom"/>
 
 </RelativeLayout>

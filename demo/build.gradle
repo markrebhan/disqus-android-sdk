@@ -5,7 +5,6 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
 
     defaultConfig {
-        applicationId "com.mrebhan.disqus.demo"
         minSdkVersion 15
         targetSdkVersion 21
         versionCode 1
