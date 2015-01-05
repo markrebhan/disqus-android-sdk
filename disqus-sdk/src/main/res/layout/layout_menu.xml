@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         
-        <com.mrebhan.disqus.widgets.TextViewBoldMedium
+        <com.mrebhan.disqus.widgets.TextViewMedium
             android:id="@+id/txt_comments"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -65,7 +65,7 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true">
 
-            <com.mrebhan.disqus.widgets.TextViewBoldMedium
+            <com.mrebhan.disqus.widgets.TextViewMedium
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/text_support"
@@ -88,7 +88,7 @@
             android:layout_marginRight="@dimen/margin_small"
             android:orientation="horizontal">
 
-            <com.mrebhan.disqus.widgets.TextViewBoldMedium
+            <com.mrebhan.disqus.widgets.TextViewMedium
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/text_support"

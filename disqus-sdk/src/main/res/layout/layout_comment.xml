@@ -23,7 +23,7 @@
         android:layout_toRightOf="@id/img_avatar"
         android:layout_toEndOf="@id/img_avatar">
 
-        <com.mrebhan.disqus.widgets.TextViewBoldMedium
+        <com.mrebhan.disqus.widgets.TextViewMedium
             android:id="@+id/txt_user_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -94,6 +94,7 @@
             android:layout_height="wrap_content">
 
             <com.mrebhan.disqus.widgets.TextViewLight
+                android:id="@+id/txt_up_votes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingRight="@dimen/padding_card_item"

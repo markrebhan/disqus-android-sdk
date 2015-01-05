@@ -31,6 +31,16 @@ public class Cursor implements Parcelable {
     public Cursor() {
     }
 
+    public Cursor(boolean hasPrev, String previousPage, boolean hasNext, String nextPage, String total, String id, boolean more) {
+        this.hasPrev = hasPrev;
+        this.previousPage = previousPage;
+        this.hasNext = hasNext;
+        this.nextPage = nextPage;
+        this.total = total;
+        this.id = id;
+        this.more = more;
+    }
+
     public boolean hasPrev() {
         return hasPrev;
     }

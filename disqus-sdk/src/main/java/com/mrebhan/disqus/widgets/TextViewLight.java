@@ -9,25 +9,25 @@ public class TextViewLight extends TextView {
 
     public TextViewLight(Context context) {
         super(context);
-        setTypeFace();
+        setFont();
     }
 
     public TextViewLight(Context context, AttributeSet attrs) {
         super(context, attrs);
-        setTypeFace();
+        setFont();
     }
 
     public TextViewLight(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        setTypeFace();
+        setFont();
     }
 
     public TextViewLight(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
-        setTypeFace();
+        setFont();
     }
 
-    private void setTypeFace() {
+    private void setFont() {
         Typeface typeface = TypeFaceCache.getTypeface(getContext(), "fonts/Roboto-Light.ttf");
         setTypeface(typeface);
     }

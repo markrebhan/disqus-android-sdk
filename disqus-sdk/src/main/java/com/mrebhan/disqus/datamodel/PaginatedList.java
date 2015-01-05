@@ -27,10 +27,16 @@ public class PaginatedList<T extends Parcelable> implements Parcelable {
     }
 
     public ArrayList<T> getResponseData() {
-        return responseData;
+        return new ArrayList<>(responseData); // return a copy not own so data is preserved
     }
 
     public PaginatedList() {
+    }
+
+    public PaginatedList(Cursor cursor, long code, ArrayList<T> responseData) {
+        this.cursor = cursor;
+        this.code = code;
+        this.responseData = responseData;
     }
 
     @Override

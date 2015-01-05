@@ -43,6 +43,20 @@ public class Author implements Parcelable {
     public Author() {
     }
 
+    public Author(String username, String about, String name, String url, boolean isFollowing, boolean isFollowedBy, String profileUrl, Avatar avatar, String id, boolean isAnonymous, String email) {
+        this.username = username;
+        this.about = about;
+        this.name = name;
+        this.url = url;
+        this.isFollowing = isFollowing;
+        this.isFollowedBy = isFollowedBy;
+        this.profileUrl = profileUrl;
+        this.avatar = avatar;
+        this.id = id;
+        this.isAnonymous = isAnonymous;
+        this.email = email;
+    }
+
     public String getUsername() {
         return username;
     }

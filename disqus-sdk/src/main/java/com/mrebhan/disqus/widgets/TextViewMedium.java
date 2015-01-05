@@ -5,25 +5,29 @@ import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
-public class TextViewBoldMedium extends TextView {
+public class TextViewMedium extends TextView {
 
-    public TextViewBoldMedium(Context context) {
+    public TextViewMedium(Context context) {
         super(context);
+        setFont();
     }
 
-    public TextViewBoldMedium(Context context, AttributeSet attrs) {
+    public TextViewMedium(Context context, AttributeSet attrs) {
         super(context, attrs);
+        setFont();
     }
 
-    public TextViewBoldMedium(Context context, AttributeSet attrs, int defStyleAttr) {
+    public TextViewMedium(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        setFont();
     }
 
-    public TextViewBoldMedium(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public TextViewMedium(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
+        setFont();
     }
 
-    private void setTypeFace() {
+    private void setFont() {
         Typeface typeface = TypeFaceCache.getTypeface(getContext(), "fonts/Roboto-Medium.ttf");
         setTypeface(typeface);
     }

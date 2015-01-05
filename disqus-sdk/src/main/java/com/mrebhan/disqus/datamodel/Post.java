@@ -20,7 +20,7 @@ public class Post implements Parcelable {
     String forum;
 
     @SerializedName("parent")
-    long parentId;
+    Long parentId;
 
     @SerializedName("author")
     Author author;
@@ -71,6 +71,29 @@ public class Post implements Parcelable {
     int likes;
 
     public Post() {
+    }
+
+    public Post(boolean isJuliaFlagged, boolean isFlagged, String forum, Long parentId, Author author, ArrayList<String> media, boolean isApproved, int dislikes, String rawMessage, String postId, String threadId, int points, Date createdDate, boolean isEdited, String message, boolean isHighlighted, String ipAddress, boolean isSpam, boolean isDeleted, int likes) {
+        this.isJuliaFlagged = isJuliaFlagged;
+        this.isFlagged = isFlagged;
+        this.forum = forum;
+        this.parentId = parentId;
+        this.author = author;
+        this.media = media;
+        this.isApproved = isApproved;
+        this.dislikes = dislikes;
+        this.rawMessage = rawMessage;
+        this.postId = postId;
+        this.threadId = threadId;
+        this.points = points;
+        this.createdDate = createdDate;
+        this.isEdited = isEdited;
+        this.message = message;
+        this.isHighlighted = isHighlighted;
+        this.ipAddress = ipAddress;
+        this.isSpam = isSpam;
+        this.isDeleted = isDeleted;
+        this.likes = likes;
     }
 
     public boolean isJuliaFlagged() {

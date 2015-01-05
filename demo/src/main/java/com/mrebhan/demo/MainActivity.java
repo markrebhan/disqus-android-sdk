@@ -1,9 +1,15 @@
 package com.mrebhan.demo;
 
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.mrebhan.disqus.Check;
+import com.mrebhan.disqus.fragment.PostsFragment;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -12,6 +18,20 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        addFragment(new PostsFragment(), false);
+    }
+
+    private void addFragment(Fragment fragment, boolean addToBackStack) {
+        Check.checkNotNull(fragment, "Must supply a fragment to add!");
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        if (addToBackStack) {
+            fragmentTransaction.addToBackStack(null);
+        }
+
+        fragmentTransaction.replace(R.id.container, fragment).commit();
     }
 
 
