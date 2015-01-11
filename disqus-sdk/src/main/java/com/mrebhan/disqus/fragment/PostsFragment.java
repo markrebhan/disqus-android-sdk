@@ -1,5 +1,6 @@
 package com.mrebhan.disqus.fragment;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -11,16 +12,20 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.mrebhan.disqus.DisqusSdkProvider;
 import com.mrebhan.disqus.R;
 import com.mrebhan.disqus.datamodel.PaginatedList;
 import com.mrebhan.disqus.datamodel.Post;
 import com.mrebhan.disqus.endpoints.threads.ListPosts;
-import com.mrebhan.disqus.widgets.ImageAvatarView;
 
 import java.util.ArrayList;
 
-public class PostsFragment extends Fragment {
+import javax.inject.Inject;
 
+public class PostsFragment extends BaseFragment {
+
+    @Inject
+    ListPosts listPosts;
 
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
@@ -40,13 +45,12 @@ public class PostsFragment extends Fragment {
         return view;
     }
 
-    private static class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
+    private class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
         private ArrayList<Post> allPosts = new ArrayList<>();
 
         private MyAdapter() {
             //TODO wire up to real shit and add cursor logic
-            ListPosts listPosts = new ListPosts();
             addPage(listPosts.getListPosts("N/A"));
         }
 
@@ -62,6 +66,10 @@ public class PostsFragment extends Fragment {
             holder.username.setText(currentPost.getAuthor().getUsername());
             holder.comment.setText(currentPost.getMessage());
             holder.upVotes.setText(Integer.toString(currentPost.getLikes()));
+
+            if (currentPost.getParentId() == null) {
+
+            }
         }
 
         @Override
@@ -74,7 +82,7 @@ public class PostsFragment extends Fragment {
             notifyDataSetChanged();
         }
 
-        public static class MyViewHolder extends RecyclerView.ViewHolder {
+        public class MyViewHolder extends RecyclerView.ViewHolder {
 
             public ImageView profileImage;
             public TextView username;

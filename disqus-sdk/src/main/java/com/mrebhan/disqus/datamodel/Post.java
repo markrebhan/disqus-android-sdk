@@ -108,7 +108,7 @@ public class Post implements Parcelable {
         return forum;
     }
 
-    public long getParentId() {
+    public Long getParentId() {
         return parentId;
     }
 
