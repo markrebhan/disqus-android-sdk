@@ -2,23 +2,30 @@ package com.mrebhan.disqus;
 
 import com.mrebhan.disqus.endpoints.threads.ListPosts;
 import com.mrebhan.disqus.fragment.PostsFragment;
+import com.mrebhan.disqus.json.GsonFactory;
+import com.mrebhan.disqus.services.ThreadPostsService;
 
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.ObjectGraph;
 import dagger.Provides;
+import retrofit.RestAdapter;
+import retrofit.converter.GsonConverter;
 
 /**
  * Client facing class to the Disqus SDK including configurations, authentication and DI setup
  */
 public class DisqusSdkProvider {
-    private ObjectGraph objectGraph;
     private static DisqusSdkProvider disqusSdkProvider;
+    public static String publicKey;
 
-    private DisqusSdkProvider() {
+    private ObjectGraph objectGraph;
+
+    private DisqusSdkProvider(Builder builder) {
         this.objectGraph = ObjectGraph.create(new SdkModule());
         disqusSdkProvider = this;
+        publicKey = builder.publicKey;
     }
 
     public static DisqusSdkProvider getInstance() {
@@ -43,19 +50,36 @@ public class DisqusSdkProvider {
 
         @Singleton
         @Provides
-        ListPosts providesListPosts() {
-            return new ListPosts();
+        RestAdapter providesRestAdapter() {
+            return new RestAdapter
+                    .Builder()
+                    .setEndpoint("https://disqus.com/api")
+                    .setConverter(new GsonConverter(GsonFactory.newGsonInstance()))
+                    .build();
+        }
+
+        @Provides
+        ThreadPostsService providesThreadPostService(RestAdapter restAdapter) {
+            return restAdapter.create(ThreadPostsService.class);
         }
     }
 
     public static class Builder {
 
-        // TODO add auth and configuration stuff here
+        private String publicKey;
+
         public Builder() {
         }
 
         public DisqusSdkProvider build() {
-            return new DisqusSdkProvider();
+            Check.checkNotNull(publicKey, "A non null public key must be set!");
+
+            return new DisqusSdkProvider(this);
+        }
+
+        public Builder setPublicKey(String publicKey) {
+            this.publicKey = publicKey;
+            return this;
         }
     }
 

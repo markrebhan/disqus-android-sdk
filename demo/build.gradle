@@ -4,11 +4,20 @@ android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
 
+    def disqusSdk = new Properties()
+    def disqusProps = file("disqus_keys.properties")
+    if (disqusProps.exists()) {
+        disqusProps.withInputStream {
+            stream -> disqusSdk.load(stream)
+        }
+    }
+
     defaultConfig {
         minSdkVersion 15
         targetSdkVersion 21
         versionCode 1
         versionName versionName
+        buildConfigField "String", "PUBLIC_KEY", "\"${disqusSdk.PUBLIC_KEY}\""
     }
     buildTypes {
         release {
