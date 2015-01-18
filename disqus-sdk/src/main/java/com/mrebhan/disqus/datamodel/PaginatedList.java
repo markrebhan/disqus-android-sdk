@@ -48,13 +48,13 @@ public class PaginatedList<T extends Parcelable> implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeParcelable(this.cursor, 0);
         dest.writeLong(this.code);
-        dest.writeSerializable(this.responseData);
+        dest.writeList(this.responseData);
     }
 
     private PaginatedList(Parcel in) {
         this.cursor = in.readParcelable(Cursor.class.getClassLoader());
         this.code = in.readLong();
-        this.responseData = (ArrayList<T>) in.readSerializable();
+        in.readList(this.responseData, Entity.class.getClassLoader());
     }
 
     public static final Parcelable.Creator<PaginatedList> CREATOR = new Parcelable.Creator<PaginatedList>() {

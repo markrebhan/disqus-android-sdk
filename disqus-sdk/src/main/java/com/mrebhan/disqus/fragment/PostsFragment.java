@@ -46,15 +46,9 @@ public class PostsFragment extends BaseFragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_posts, null, false);
-
-        recyclerView = (RecyclerView) view.findViewById(R.id.list_posts);
-        recyclerView.setHasFixedSize(true);
-        layoutManager = new LinearLayoutManager(getActivity());
-        recyclerView.setLayoutManager(layoutManager);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         adapter = new MyAdapter();
-        recyclerView.setAdapter(adapter);
 
         if (savedInstanceState != null) {
             threadId = savedInstanceState.getString(ARG_THREAD_ID);
@@ -64,6 +58,17 @@ public class PostsFragment extends BaseFragment {
             // get the first page of posts
             threadPostsService.getPosts(threadId, DisqusSdkProvider.publicKey, new MyGetPostsCallback());
         }
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_posts, null, false);
+
+        recyclerView = (RecyclerView) view.findViewById(R.id.list_posts);
+        recyclerView.setHasFixedSize(true);
+        layoutManager = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(adapter);
 
         return view;
     }

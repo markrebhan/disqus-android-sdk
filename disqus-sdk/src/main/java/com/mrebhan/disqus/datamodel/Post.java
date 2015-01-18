@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Post implements Parcelable {
+public class Post implements Entity, Parcelable {
 
     @SerializedName("isJuliaFlagged")
     boolean isJuliaFlagged;
@@ -186,7 +186,7 @@ public class Post implements Parcelable {
         dest.writeByte(isJuliaFlagged ? (byte) 1 : (byte) 0);
         dest.writeByte(isFlagged ? (byte) 1 : (byte) 0);
         dest.writeString(this.forum);
-        dest.writeLong(this.parentId);
+        dest.writeValue(this.parentId);
         dest.writeParcelable(this.author, 0);
         dest.writeSerializable(this.media);
         dest.writeByte(isApproved ? (byte) 1 : (byte) 0);
@@ -209,7 +209,7 @@ public class Post implements Parcelable {
         this.isJuliaFlagged = in.readByte() != 0;
         this.isFlagged = in.readByte() != 0;
         this.forum = in.readString();
-        this.parentId = in.readLong();
+        this.parentId = (Long) in.readValue(Long.class.getClassLoader());
         this.author = in.readParcelable(Author.class.getClassLoader());
         this.media = (ArrayList<String>) in.readSerializable();
         this.isApproved = in.readByte() != 0;
@@ -229,7 +229,7 @@ public class Post implements Parcelable {
         this.likes = in.readInt();
     }
 
-    public static final Parcelable.Creator<Post> CREATOR = new Parcelable.Creator<Post>() {
+    public static final Creator<Post> CREATOR = new Creator<Post>() {
         public Post createFromParcel(Parcel source) {
             return new Post(source);
         }

@@ -18,7 +18,14 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        addFragment(PostsFragment.getInstance("894832"), false);
+
+        // need to check if saved instance state is null because if we are restoring the activity from
+        // a saved instance, then we are restoring the fragment as well. Adding a new fragment
+        // would wipe out the "new restored" fragment which goes through the life cycle methods with
+        // a saved instance state bundle.
+        if (savedInstanceState == null) {
+            addFragment(PostsFragment.getInstance("894832"), false);
+        }
     }
 
     private void addFragment(Fragment fragment, boolean addToBackStack) {
