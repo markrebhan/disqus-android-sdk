@@ -1,8 +1,13 @@
 package com.mrebhan.disqus;
 
+import android.content.Context;
+
 import com.mrebhan.disqus.fragment.PostsFragment;
 import com.mrebhan.disqus.json.GsonFactory;
 import com.mrebhan.disqus.services.ThreadPostsService;
+import com.squareup.picasso.LruCache;
+import com.squareup.picasso.OkHttpDownloader;
+import com.squareup.picasso.Picasso;
 
 import javax.inject.Singleton;
 
@@ -19,6 +24,12 @@ import retrofit.converter.GsonConverter;
 )
 public class DisqusSdkDaggerModule {
 
+    private Context appContext;
+
+    public DisqusSdkDaggerModule(Context appContext) {
+        this.appContext = appContext;
+    }
+
     @Singleton
     @Provides
     RestAdapter providesRestAdapter() {
@@ -33,5 +44,14 @@ public class DisqusSdkDaggerModule {
     @Provides
     ThreadPostsService providesThreadPostService(RestAdapter restAdapter) {
         return restAdapter.create(ThreadPostsService.class);
+    }
+
+    @Singleton
+    @Provides
+    Picasso providesPicasso() {
+        return new Picasso.Builder(appContext)
+                .downloader(new OkHttpDownloader(appContext))
+                .memoryCache(new LruCache(appContext))
+                .build();
     }
 }

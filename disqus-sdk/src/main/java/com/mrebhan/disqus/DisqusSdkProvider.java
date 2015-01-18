@@ -1,5 +1,7 @@
 package com.mrebhan.disqus;
 
+import android.content.Context;
+
 import com.mrebhan.disqus.fragment.PostsFragment;
 import com.mrebhan.disqus.json.GsonFactory;
 import com.mrebhan.disqus.services.ThreadPostsService;
@@ -22,7 +24,7 @@ public class DisqusSdkProvider {
     private ObjectGraph objectGraph;
 
     private DisqusSdkProvider(Builder builder) {
-        this.objectGraph = ObjectGraph.create(new DisqusSdkDaggerModule());
+        this.objectGraph = ObjectGraph.create(new DisqusSdkDaggerModule(builder.appContext));
         disqusSdkProvider = this;
         publicKey = builder.publicKey;
     }
@@ -43,18 +45,25 @@ public class DisqusSdkProvider {
     public static class Builder {
 
         private String publicKey;
+        private Context appContext;
 
         public Builder() {
         }
 
         public DisqusSdkProvider build() {
             Check.checkNotNull(publicKey, "A non null public key must be set!");
+            Check.checkNotNull(appContext, "A context must be set!");
 
             return new DisqusSdkProvider(this);
         }
 
         public Builder setPublicKey(String publicKey) {
             this.publicKey = publicKey;
+            return this;
+        }
+
+        public Builder setContext(Context appContext) {
+            this.appContext = appContext;
             return this;
         }
     }

@@ -7,13 +7,12 @@
     android:padding="@dimen/padding_card_item"
     android:background="#FFFFFF">
 
-    <com.mrebhan.disqus.widgets.ImageAvatarView
+    <com.mrebhan.disqus.widgets.AvatarImageView
         android:id="@+id/img_avatar"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginEnd="@dimen/padding_card_item"
-        android:layout_marginRight="@dimen/padding_card_item"
-        android:background="@drawable/no_avatar_92"/>
+        android:layout_marginRight="@dimen/padding_card_item"/>
 
     <LinearLayout
         android:id="@+id/layout_top"

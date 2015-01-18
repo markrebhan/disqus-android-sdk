@@ -1,5 +1,15 @@
 package com.mrebhan.disqus.fragment;
 
+import android.graphics.AvoidXfermode;
+import android.graphics.Bitmap;
+import android.graphics.BitmapShader;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
+import android.graphics.RectF;
+import android.graphics.Shader;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,10 +23,14 @@ import android.widget.TextView;
 
 import com.mrebhan.disqus.DisqusSdkProvider;
 import com.mrebhan.disqus.R;
+import com.mrebhan.disqus.datamodel.Avatar;
 import com.mrebhan.disqus.datamodel.PaginatedList;
 import com.mrebhan.disqus.datamodel.Post;
 import com.mrebhan.disqus.services.ThreadPostsService;
+import com.mrebhan.disqus.widgets.AvatarDrawable;
 import com.mrebhan.disqus.widgets.PaginatedAdapter;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Transformation;
 
 import javax.inject.Inject;
 
@@ -31,6 +45,8 @@ public class PostsFragment extends BaseFragment {
 
     @Inject
     ThreadPostsService threadPostsService;
+    @Inject
+    Picasso picasso;
 
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
@@ -102,8 +118,11 @@ public class PostsFragment extends BaseFragment {
             holder.comment.setText(currentPost.getRawMessage());
             holder.upVotes.setText(Integer.toString(currentPost.getLikes()));
 
-            if (currentPost.getParentId() == null) {
-
+            Avatar avatar = currentPost.getAuthor().getAvatar();
+            if (avatar.getPermalinkUrl() != null) {
+                picasso.load(avatar.getPermalinkUrl()).error(R.drawable.no_avatar_92).into(holder.profileImage);
+            } else {
+                picasso.load(R.drawable.no_avatar_92).into(holder.profileImage);
             }
         }
         public class MyViewHolder extends RecyclerView.ViewHolder {

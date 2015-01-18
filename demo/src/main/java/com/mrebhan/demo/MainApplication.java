@@ -13,6 +13,9 @@ public class MainApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        disqusSdkProvider = new DisqusSdkProvider.Builder().setPublicKey(BuildConfig.PUBLIC_KEY).build();
+        disqusSdkProvider = new DisqusSdkProvider.Builder()
+                .setPublicKey(BuildConfig.PUBLIC_KEY)
+                .setContext(getApplicationContext())
+                .build();
     }
 }
