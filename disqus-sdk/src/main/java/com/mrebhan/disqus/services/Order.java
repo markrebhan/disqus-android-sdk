@@ -1,4 +1,4 @@
-package com.mrebhan.disqus.endpoints;
+package com.mrebhan.disqus.services;
 
 public enum Order {
     DESCENDING("desc"),

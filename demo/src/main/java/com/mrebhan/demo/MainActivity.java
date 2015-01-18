@@ -18,7 +18,7 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        addFragment(new PostsFragment(), false);
+        addFragment(PostsFragment.getInstance("894832"), false);
     }
 
     private void addFragment(Fragment fragment, boolean addToBackStack) {

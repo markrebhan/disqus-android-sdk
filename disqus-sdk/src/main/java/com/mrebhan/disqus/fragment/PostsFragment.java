@@ -11,12 +11,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.mrebhan.disqus.DisqusSdkProvider;
 import com.mrebhan.disqus.R;
 import com.mrebhan.disqus.datamodel.PaginatedList;
 import com.mrebhan.disqus.datamodel.Post;
-import com.mrebhan.disqus.endpoints.threads.ListPosts;
-
-import java.util.ArrayList;
+import com.mrebhan.disqus.services.ThreadPostsService;
+import com.mrebhan.disqus.widgets.PaginatedAdapter;
 
 import javax.inject.Inject;
 
@@ -26,12 +26,24 @@ import retrofit.client.Response;
 
 public class PostsFragment extends BaseFragment {
 
+    public static final String ARG_THREAD_ID = ".PostsFragment.threadId";
+    public static final String PREFIX_ADAPTER = ".PostsFragment.MyAdapter";
+
     @Inject
-    ListPosts listPosts;
+    ThreadPostsService threadPostsService;
 
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
-    private MyAdapter myAdapter;
+    private MyAdapter adapter;
+    private String threadId;
+
+    public static PostsFragment getInstance(String threadId) {
+        PostsFragment postsFragment = new PostsFragment();
+        Bundle bundle = new Bundle(1);
+        bundle.putString(ARG_THREAD_ID, threadId);
+        postsFragment.setArguments(bundle);
+        return postsFragment;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -41,17 +53,34 @@ public class PostsFragment extends BaseFragment {
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
-        myAdapter = new MyAdapter();
-        recyclerView.setAdapter(myAdapter);
+        adapter = new MyAdapter();
+        recyclerView.setAdapter(adapter);
 
-        listPosts.getListPosts("894832", new MyGetPostsCallback());
+        if (savedInstanceState != null) {
+            threadId = savedInstanceState.getString(ARG_THREAD_ID);
+            adapter.onRestoreInstanceState(PREFIX_ADAPTER, savedInstanceState);
+        } else {
+            threadId = getArguments().getString(ARG_THREAD_ID);
+            // get the first page of posts
+            threadPostsService.getPosts(threadId, DisqusSdkProvider.publicKey, new MyGetPostsCallback());
+        }
 
         return view;
     }
 
-    private class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(ARG_THREAD_ID, threadId);
+        adapter.onSaveInstanceState(PREFIX_ADAPTER, outState);
+    }
 
-        private ArrayList<Post> allPosts = new ArrayList<>();
+    private class MyAdapter extends PaginatedAdapter<Post, MyAdapter.MyViewHolder> {
+
+        @Override
+        protected void loadNextPage(String cursorId, Callback<PaginatedList<Post>> callback) {
+            threadPostsService.getNextPage(cursorId, DisqusSdkProvider.publicKey, callback);
+        }
 
         @Override
         public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -61,7 +90,9 @@ public class PostsFragment extends BaseFragment {
 
         @Override
         public void onBindViewHolder(MyViewHolder holder, int position) {
-            Post currentPost = allPosts.get(position);
+            super.onBindViewHolder(holder, position);
+
+            Post currentPost = getItem(position);
             holder.username.setText(currentPost.getAuthor().getUsername());
             holder.comment.setText(currentPost.getRawMessage());
             holder.upVotes.setText(Integer.toString(currentPost.getLikes()));
@@ -70,17 +101,6 @@ public class PostsFragment extends BaseFragment {
 
             }
         }
-
-        @Override
-        public int getItemCount() {
-            return allPosts.size();
-        }
-
-        public void addPage(PaginatedList<Post> postPaginatedList) {
-            allPosts.addAll(postPaginatedList.getResponseData());
-            notifyDataSetChanged();
-        }
-
         public class MyViewHolder extends RecyclerView.ViewHolder {
 
             public ImageView profileImage;
@@ -107,7 +127,8 @@ public class PostsFragment extends BaseFragment {
     private class MyGetPostsCallback implements Callback<PaginatedList<Post>> {
         @Override
         public void success(PaginatedList<Post> posts, Response response) {
-            myAdapter.addPage(posts);
+            adapter.addList(posts);
+            adapter.notifyDataSetChanged();
         }
 
         @Override

@@ -1,6 +1,5 @@
 package com.mrebhan.disqus;
 
-import com.mrebhan.disqus.endpoints.threads.ListPosts;
 import com.mrebhan.disqus.fragment.PostsFragment;
 import com.mrebhan.disqus.json.GsonFactory;
 import com.mrebhan.disqus.services.ThreadPostsService;
@@ -17,13 +16,13 @@ import retrofit.converter.GsonConverter;
  * Client facing class to the Disqus SDK including configurations, authentication and DI setup
  */
 public class DisqusSdkProvider {
-    private static DisqusSdkProvider disqusSdkProvider;
-    public static String publicKey;
 
+    public static String publicKey;
+    private static DisqusSdkProvider disqusSdkProvider;
     private ObjectGraph objectGraph;
 
     private DisqusSdkProvider(Builder builder) {
-        this.objectGraph = ObjectGraph.create(new SdkModule());
+        this.objectGraph = ObjectGraph.create(new DisqusSdkDaggerModule());
         disqusSdkProvider = this;
         publicKey = builder.publicKey;
     }
@@ -39,29 +38,6 @@ public class DisqusSdkProvider {
 
     public ObjectGraph getObjectGraph() {
         return objectGraph;
-    }
-
-    @Module (
-            injects = {
-                    PostsFragment.class
-            }
-    )
-    protected static class SdkModule {
-
-        @Singleton
-        @Provides
-        RestAdapter providesRestAdapter() {
-            return new RestAdapter
-                    .Builder()
-                    .setEndpoint("https://disqus.com/api")
-                    .setConverter(new GsonConverter(GsonFactory.newGsonInstance()))
-                    .build();
-        }
-
-        @Provides
-        ThreadPostsService providesThreadPostService(RestAdapter restAdapter) {
-            return restAdapter.create(ThreadPostsService.class);
-        }
     }
 
     public static class Builder {
