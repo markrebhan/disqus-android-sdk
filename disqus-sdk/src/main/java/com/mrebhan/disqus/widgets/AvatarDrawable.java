@@ -22,8 +22,9 @@ public class AvatarDrawable extends Drawable {
 
     private final float radius;
     private final RectF rectF = new RectF();
-    private final BitmapShader bitmapShader;
     private final Paint paint;
+    private BitmapShader bitmapShader;
+    private Bitmap bitmap;
 
     public static AvatarDrawable fromBitmap(Bitmap bitmap, float radius) {
         if (bitmap == null) {
@@ -53,6 +54,7 @@ public class AvatarDrawable extends Drawable {
 
     public AvatarDrawable(Bitmap bitmap, float radius) {
         this.radius = radius;
+        this.bitmap = bitmap;
         this.bitmapShader = new BitmapShader(bitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
 
         this.paint = new Paint();
@@ -64,6 +66,11 @@ public class AvatarDrawable extends Drawable {
     protected void onBoundsChange(Rect bounds) {
         super.onBoundsChange(bounds);
         rectF.set(0, 0, bounds.width(), bounds.height());
+        // need to scale bitmap to bounds size if it isn't already the correct size
+        if (bitmap.getWidth() != bounds.width() || bitmap.getHeight() != bounds.height()) {
+            bitmapShader = new BitmapShader(Bitmap.createScaledBitmap(bitmap, bounds.width(), bounds.height(), true), Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
+            paint.setShader(bitmapShader);
+        }
     }
 
     @Override

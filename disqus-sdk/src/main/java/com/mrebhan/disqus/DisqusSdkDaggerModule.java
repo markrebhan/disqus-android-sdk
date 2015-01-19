@@ -18,8 +18,7 @@ import retrofit.converter.GsonConverter;
 
 @Module(
         injects = {
-                PostsFragment.class,
-                DisqusSdkProvider.class
+                PostsFragment.class
         }
 )
 public class DisqusSdkDaggerModule {
