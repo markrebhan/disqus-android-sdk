@@ -2,6 +2,8 @@ package com.mrebhan.disqus;
 
 import android.content.Context;
 
+import com.mrebhan.disqus.fragment.CommentItem;
+import com.mrebhan.disqus.fragment.PostsAdapter;
 import com.mrebhan.disqus.fragment.PostsFragment;
 import com.mrebhan.disqus.json.GsonFactory;
 import com.mrebhan.disqus.services.ThreadPostsService;
@@ -18,7 +20,9 @@ import retrofit.converter.GsonConverter;
 
 @Module(
         injects = {
-                PostsFragment.class
+                PostsFragment.class,
+                PostsAdapter.class,
+                CommentItem.class
         }
 )
 public class DisqusSdkDaggerModule {
@@ -52,5 +56,11 @@ public class DisqusSdkDaggerModule {
                 .downloader(new OkHttpDownloader(appContext))
                 .memoryCache(new LruCache(appContext))
                 .build();
+    }
+
+    @Provides
+    @Singleton
+    Context providesContext() {
+        return appContext;
     }
 }

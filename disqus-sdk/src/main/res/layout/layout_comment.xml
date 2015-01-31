@@ -4,13 +4,14 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="@dimen/padding_card_item"
     android:background="#FFFFFF">
 
     <com.mrebhan.disqus.widgets.AvatarImageView
         android:id="@+id/img_avatar"
         android:layout_width="50dp"
         android:layout_height="50dp"
+        android:layout_marginTop="@dimen/padding_card_item"
+        android:layout_marginLeft="@dimen/padding_card_item"
         android:layout_marginEnd="@dimen/padding_card_item"
         android:layout_marginRight="@dimen/padding_card_item"/>
 
@@ -18,6 +19,9 @@
         android:id="@+id/layout_top"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:layout_marginRight="@dimen/padding_card_item"
+        android:layout_marginEnd="@dimen/padding_card_item"
         android:layout_marginBottom="@dimen/margin_small"
         android:layout_toRightOf="@id/img_avatar"
         android:layout_toEndOf="@id/img_avatar">
@@ -76,6 +80,8 @@
         android:layout_toEndOf="@+id/img_avatar"
         android:layout_toRightOf="@+id/img_avatar"
         android:layout_below="@+id/layout_top"
+        android:layout_marginRight="@dimen/padding_card_item"
+        android:layout_marginEnd="@dimen/padding_card_item"
         android:layout_marginBottom="@dimen/margin_small"
         android:textSize="@dimen/text_main"
         android:textColor="@color/black"
@@ -85,6 +91,9 @@
         android:id="@+id/layout_bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/padding_card_item"
+        android:layout_marginRight="@dimen/padding_card_item"
+        android:layout_marginEnd="@dimen/padding_card_item"
         android:layout_toRightOf="@id/img_avatar"
         android:layout_toEndOf="@id/img_avatar"
         android:layout_below="@id/txt_comment">
@@ -146,17 +155,14 @@
 
     </LinearLayout>
 
-    <!--set the touchable area to be 8dp on all sides bigger than just the image ignoring parent padding-->
+    <!--set the touchable area to be @dimen/padding_card_item on all sides bigger than just the image ignoring parent padding-->
     <FrameLayout
         android:id="@+id/post_menu"
         android:layout_width="38dp"
         android:layout_height="38dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:layout_alignBottom="@id/layout_bottom"
-        android:layout_marginRight="-8dp"
-        android:layout_marginEnd="-8dp"
-        android:layout_marginBottom="-8dp">
+        android:layout_alignBottom="@+id/layout_bottom">
 
         <ImageView
             android:layout_width="wrap_content"
@@ -166,16 +172,15 @@
 
         </FrameLayout>
 
+    <!--TODO remove eventually-->
     <FrameLayout
         android:id="@+id/frame_actions"
         android:layout_below="@+id/post_menu"
-        android:layout_toRightOf="@+id/img_avatar"
-        android:layout_toEndOf="@+id/img_avatar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/img_avatar"
+        android:layout_marginLeft="-12dp"
         android:visibility="gone">
-
-        <include layout="@layout/layout_comment_more"/>
 
         </FrameLayout>
 

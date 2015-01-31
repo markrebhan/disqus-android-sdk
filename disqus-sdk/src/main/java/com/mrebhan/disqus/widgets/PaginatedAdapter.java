@@ -7,8 +7,11 @@ import android.util.Log;
 
 import com.mrebhan.disqus.datamodel.Cursor;
 import com.mrebhan.disqus.datamodel.PaginatedList;
+import com.mrebhan.disqus.fragment.ViewHolderType;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -19,11 +22,12 @@ import retrofit.client.Response;
 /**
  *  Base adapter implementation for adapters associated with {@link com.mrebhan.disqus.datamodel.PaginatedList}
  */
-public abstract class PaginatedAdapter<T extends Parcelable, VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> implements Callback<PaginatedList<T>>{
+public abstract class PaginatedAdapter<T extends Parcelable> extends RecyclerView.Adapter implements Callback<PaginatedList<T>>{
 
     private ArrayList<PaginatedList<T>> paginatedLists = new ArrayList<>(); // all paginated lists that have been fetched
     private ArrayList<T> allResourceItems = new ArrayList<>(); // All individual items retrieved
-    private ArrayList<Integer> paginatedListCounts = new ArrayList<>(); // total number of items after each entry
+    private ArrayList<ViewHolderType> allAdapterItems = new ArrayList<>();
+    private List<Integer> dataPositions = new LinkedList<>(); // keep track of positions of entity in adapter as other new items are added in the all adapter list
     private int count = 0;
 
     private AtomicBoolean loading = new AtomicBoolean(false);
@@ -49,21 +53,54 @@ public abstract class PaginatedAdapter<T extends Parcelable, VH extends Recycler
             paginatedLists.add(list);
             allResourceItems.addAll(list.getResponseData());
             count += list.getResponseData().size();
-            paginatedListCounts.add(count);
+            for (T item: list.getResponseData()) {
+                dataPositions.add(allResourceItems.indexOf(item));
+                allAdapterItems.add(ViewHolderType.COMMENT);
+            }
         }
+    }
 
+    public void addViewHolderType(ViewHolderType type) {
+        allAdapterItems.add(type);
+        count++;
+        dataPositions.add(-1);
+        notifyItemInserted(getItemCount() - 1);
+    }
+
+    public void addViewHolderType(ViewHolderType type, int position) {
+        allAdapterItems.add(position, type);
+        count++;
+        dataPositions.add(position, -1);
+        notifyItemInserted(position);
+
+    }
+
+    public void removeViewHolderType(int position) {
+        allAdapterItems.remove(position);
+        count--;
+        dataPositions.remove(position);
+        notifyItemRemoved(position);
     }
 
     public void loadNext() {
         Cursor cursor = paginatedLists.get(paginatedLists.size() - 1).getCursor();
         if (cursor.hasNext()) {
-            loading.compareAndSet(false, true);
-            loadNextPage(cursor.getNextPage(), this);
+            if (loading.compareAndSet(false, true)) {
+                loadNextPage(cursor.getNextPage(), this);
+            } else {
+                Log.d("","Already loading next page");
+
+            }
         }
     }
 
-    protected T getItem(int position) {
-        return allResourceItems.get(position);
+    protected Object getItem(int position) {
+        int index = dataPositions.get(position);
+        if (index != -1)  {
+            return allResourceItems.get(index);
+        } else {
+            return null;
+        }
     }
 
     @Override
@@ -72,7 +109,7 @@ public abstract class PaginatedAdapter<T extends Parcelable, VH extends Recycler
     }
 
     @Override
-    public void onBindViewHolder(VH holder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (position == count - 10) {
             loadNext();
         }
