@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/blue"
-    android:padding="@dimen/padding_card_item">
+    android:padding="@dimen/eight">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -43,8 +43,8 @@
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:background="@color/white"
-        android:layout_marginBottom="@dimen/margin_small"
-        android:layout_marginTop="@dimen/margin_small"/>
+        android:layout_marginBottom="@dimen/four"
+        android:layout_marginTop="@dimen/four"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -85,7 +85,7 @@
             android:layout_toLeftOf="@+id/view_favorite"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/margin_small"
+            android:layout_marginRight="@dimen/four"
             android:orientation="horizontal">
 
             <com.mrebhan.disqus.widgets.TextViewMedium

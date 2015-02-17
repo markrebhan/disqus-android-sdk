@@ -15,6 +15,8 @@ public class MainApplication extends Application {
 
         disqusSdkProvider = new DisqusSdkProvider.Builder()
                 .setPublicKey(BuildConfig.PUBLIC_KEY)
+                .setPrivateKey(BuildConfig.PRIVATE_KEY)
+                .setRedirectUri(BuildConfig.REDIRECT_URI)
                 .setContext(getApplicationContext())
                 .build();
     }

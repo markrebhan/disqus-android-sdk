@@ -2,10 +2,13 @@ package com.mrebhan.disqus;
 
 import android.content.Context;
 
+import com.mrebhan.disqus.fragment.ActionBarItem;
 import com.mrebhan.disqus.fragment.CommentItem;
+import com.mrebhan.disqus.fragment.LoginFragment;
 import com.mrebhan.disqus.fragment.PostsAdapter;
 import com.mrebhan.disqus.fragment.PostsFragment;
 import com.mrebhan.disqus.json.GsonFactory;
+import com.mrebhan.disqus.services.AccessTokenService;
 import com.mrebhan.disqus.services.ThreadPostsService;
 import com.squareup.picasso.LruCache;
 import com.squareup.picasso.OkHttpDownloader;
@@ -20,9 +23,11 @@ import retrofit.converter.GsonConverter;
 
 @Module(
         injects = {
+                LoginFragment.class,
                 PostsFragment.class,
                 PostsAdapter.class,
-                CommentItem.class
+                CommentItem.class,
+                ActionBarItem.class
         }
 )
 public class DisqusSdkDaggerModule {
@@ -38,7 +43,7 @@ public class DisqusSdkDaggerModule {
     RestAdapter providesRestAdapter() {
         return new RestAdapter
                 .Builder()
-                .setLogLevel(RestAdapter.LogLevel.BASIC)
+                .setLogLevel(RestAdapter.LogLevel.FULL)
                 .setEndpoint("https://disqus.com/api")
                 .setConverter(new GsonConverter(GsonFactory.newGsonInstance()))
                 .build();
@@ -47,6 +52,11 @@ public class DisqusSdkDaggerModule {
     @Provides
     ThreadPostsService providesThreadPostService(RestAdapter restAdapter) {
         return restAdapter.create(ThreadPostsService.class);
+    }
+
+    @Provides
+    AccessTokenService providesAccessTokenService(RestAdapter restAdapter) {
+        return restAdapter.create(AccessTokenService.class);
     }
 
     @Singleton

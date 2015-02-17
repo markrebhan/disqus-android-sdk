@@ -11,7 +11,7 @@ import com.mrebhan.disqus.datamodel.Entity;
 public interface ViewHolderItem {
 
     public ViewHolderType getViewItemType();
-    public void onBindViewHolder(Object data);
+    public void onBindViewHolder(Object data, int leftPixelOffset);
     public void injectThis();
 
 }

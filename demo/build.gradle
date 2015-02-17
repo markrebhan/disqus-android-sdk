@@ -18,6 +18,8 @@ android {
         versionCode 1
         versionName versionName
         buildConfigField "String", "PUBLIC_KEY", "\"${disqusSdk.PUBLIC_KEY}\""
+        buildConfigField "String", "PRIVATE_KEY", "\"${disqusSdk.PRIVATE_KEY}\""
+        buildConfigField "String", "REDIRECT_URI", "\"${disqusSdk.REDIRECT_URI}\""
     }
     buildTypes {
         release {

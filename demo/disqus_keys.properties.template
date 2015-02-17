@@ -1,2 +1,4 @@
 # Please provide the demo application with your public Disqus API key
 PUBLIC_KEY={key}
+PRIVATE_KEY={key}
+REDIRECT_URI={redirect uri}

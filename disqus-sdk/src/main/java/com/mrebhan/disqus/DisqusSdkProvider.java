@@ -20,6 +20,8 @@ import retrofit.converter.GsonConverter;
 public class DisqusSdkProvider {
 
     public static String publicKey;
+    public static String privateKey;
+    public static String redirectUri;
     private static DisqusSdkProvider disqusSdkProvider;
     private ObjectGraph objectGraph;
 
@@ -27,6 +29,8 @@ public class DisqusSdkProvider {
         this.objectGraph = ObjectGraph.create(new DisqusSdkDaggerModule(builder.appContext));
         disqusSdkProvider = this;
         publicKey = builder.publicKey;
+        privateKey = builder.privateKey;
+        redirectUri = builder.redirectUri;
     }
 
     public static DisqusSdkProvider getInstance() {
@@ -45,6 +49,8 @@ public class DisqusSdkProvider {
     public static class Builder {
 
         private String publicKey;
+        private String privateKey;
+        private String redirectUri;
         private Context appContext;
 
         public Builder() {
@@ -52,13 +58,25 @@ public class DisqusSdkProvider {
 
         public DisqusSdkProvider build() {
             Check.checkNotNull(publicKey, "A non null public key must be set!");
+            Check.checkNotNull(privateKey, "A non null private key must be set!");
             Check.checkNotNull(appContext, "A context must be set!");
+            Check.checkNotNull(redirectUri, "A redirect Uri must be set!");
 
             return new DisqusSdkProvider(this);
         }
 
         public Builder setPublicKey(String publicKey) {
             this.publicKey = publicKey;
+            return this;
+        }
+
+        public Builder setPrivateKey(String privateKey) {
+            this.privateKey = privateKey;
+            return this;
+        }
+
+        public Builder setRedirectUri(String redirectUri) {
+            this.redirectUri = redirectUri;
             return this;
         }
 

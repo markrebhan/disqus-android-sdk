@@ -1,77 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    card_view:cardBackgroundColor="@color/white"
-    card_view:cardElevation="2dp"
-    card_view:cardCornerRadius="0dp">
+    android:layout_width="match_parent">
 
-    <LinearLayout
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_gravity="right"
+        card_view:cardBackgroundColor="@color/white"
+        card_view:cardElevation="2dp"
+        card_view:cardCornerRadius="@dimen/four">
 
-    <com.mrebhan.disqus.widgets.TextViewMedium
-        android:id="@+id/more_reply"
-        android:textColor="@color/text_support"
-        android:textSize="@dimen/text_main"
-        android:paddingLeft="@dimen/padding_card_item"
-        android:paddingRight="@dimen/padding_card_item"
-        android:paddingEnd="@dimen/padding_card_item"
-        android:paddingTop="@dimen/padding_card_item"
-        android:paddingBottom="@dimen/padding_card_item"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/reply"/>
-
-    <View
-        android:layout_width="2dp"
-        android:layout_height="2dp"
-        android:background="@color/text_support"
-        android:layout_gravity="center_vertical"/>
-
-
-    <com.mrebhan.disqus.widgets.TextViewMedium
-        android:id="@+id/more_share"
-        android:textColor="@color/text_support"
-        android:textSize="@dimen/text_main"
-        android:padding="@dimen/padding_card_item"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/share"/>
-
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingRight="6dp"
-        android:layout_gravity="center_vertical|right">
-
-        <ImageView
-            android:id="@+id/more_minimize"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/ic_minimize"
-            android:padding="@dimen/margin_small"/>
+            android:orientation="horizontal">
+
+        <com.mrebhan.disqus.widgets.TextViewMedium
+            android:id="@+id/more_reply"
+            android:textColor="@color/text_support"
+            android:textSize="@dimen/text_main"
+            android:paddingLeft="@dimen/eight"
+            android:paddingRight="@dimen/eight"
+            android:paddingEnd="@dimen/eight"
+            android:paddingTop="@dimen/eight"
+            android:paddingBottom="@dimen/eight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/reply"/>
 
         <View
-            android:layout_width="1dp"
-            android:layout_height="24dp"
+            android:layout_width="2dp"
+            android:layout_height="2dp"
             android:background="@color/text_support"
-            android:layout_marginLeft="@dimen/padding_card_item"
-            android:layout_marginRight="@dimen/padding_card_item"/>
+            android:layout_gravity="center_vertical"/>
 
-        <ImageView
-            android:id="@+id/more_flag"
+
+        <com.mrebhan.disqus.widgets.TextViewMedium
+            android:id="@+id/more_share"
+            android:textColor="@color/text_support"
+            android:textSize="@dimen/text_main"
+            android:padding="@dimen/eight"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/ic_flag"/>
+            android:text="@string/share"/>
 
-    </LinearLayout>
+        </LinearLayout>
 
-</android.support.v7.widget.CardView>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingRight="6dp"
+            android:layout_gravity="center_vertical|right">
+
+            <ImageView
+                android:id="@+id/more_minimize"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ic_minimize"
+                android:padding="@dimen/four"/>
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="24dp"
+                android:background="@color/text_support"
+                android:layout_marginLeft="@dimen/eight"
+                android:layout_marginRight="@dimen/eight"/>
+
+            <ImageView
+                android:id="@+id/more_flag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ic_flag"/>
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+</FrameLayout>

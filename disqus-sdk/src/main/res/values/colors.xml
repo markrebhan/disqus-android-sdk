@@ -4,6 +4,8 @@
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
     <color name="blue">#2E9FFF</color>
+    <color name="blue_focused">#1593ff</color>
+    <color name="blue_pressed">#0087fa</color>
     <color name="text_support">#A6B4BB</color>
 
 

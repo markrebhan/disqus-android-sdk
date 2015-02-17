@@ -1,7 +1,10 @@
 package com.mrebhan.disqus.fragment;
 
 import android.content.Context;
+import android.graphics.Matrix;
+import android.graphics.Rect;
 import android.support.v7.widget.RecyclerView;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,9 +43,9 @@ public class CommentItem extends RecyclerView.ViewHolder implements ViewHolderIt
     public View upVoteContainer;
     public View downVoteContainer;
     public View subMenu;
-    public FrameLayout actions;
+    public ImageView subMenuImage;
     private Listener listener;
-
+    private int leftOffset;
 
     public CommentItem(View itemView, Listener listener) {
         super(itemView);
@@ -56,7 +59,7 @@ public class CommentItem extends RecyclerView.ViewHolder implements ViewHolderIt
         upVoteContainer = itemView.findViewById(R.id.frame_up_vote);
         downVoteContainer = itemView.findViewById(R.id.frame_down_vote);
         subMenu = itemView.findViewById(R.id.post_menu);
-        actions = (FrameLayout) itemView.findViewById(R.id.frame_actions);
+        subMenuImage = (ImageView) itemView.findViewById(R.id.post_menu_image);
         this.listener = listener;
     }
 
@@ -71,7 +74,7 @@ public class CommentItem extends RecyclerView.ViewHolder implements ViewHolderIt
     }
 
     @Override
-    public void onBindViewHolder(Object data) {
+    public void onBindViewHolder(Object data, int leftPixelOffset) {
         Post currentPost = (Post) data;
 
         username.setText(currentPost.getAuthor().getUsername());
@@ -87,7 +90,14 @@ public class CommentItem extends RecyclerView.ViewHolder implements ViewHolderIt
         }
 
         subMenu.setOnClickListener(new MyMenuClickListener());
+
+        // of the action bar is open, then we must rotate the image 90 degrees
+        if (listener.isActionBarOpen(getPosition())) {
+            subMenuImage.setRotation(90f);
+        }
+
     }
+
 
     @Override
     public void injectThis() {
@@ -149,25 +159,27 @@ public class CommentItem extends RecyclerView.ViewHolder implements ViewHolderIt
         @Override
         public void onClick(View v) {
 
-            if (actions.getVisibility() == View.GONE) {
-                actions.setVisibility(View.VISIBLE);
-                Animation animation = new RotateAnimation(0f, 90f, subMenu.getWidth() / 2, subMenu.getHeight() / 2);
-                animation.setDuration(200);
-                animation.setFillAfter(true);
-                subMenu.startAnimation(animation);
-                listener.onActionMoreClicked(getPosition(), true);
+            Animation animation;
+            subMenuImage.setRotation(0f); // zero out rotation angle since animation will start and end at proper angles
+
+            if (listener.isActionBarOpen(getPosition())) {
+                // close animation for menu 90 -> 0 degree
+                animation = new RotateAnimation(90f, 0f, subMenuImage.getWidth() / 2, subMenuImage.getHeight() / 2);
             } else {
-                actions.setVisibility(View.GONE);
-                Animation animation = new RotateAnimation(90f, 0f, subMenu.getWidth() / 2, subMenu.getHeight() / 2);
-                animation.setDuration(200);
-                animation.setFillAfter(true);
-                subMenu.startAnimation(animation);
-                listener.onActionMoreClicked(getPosition(), false);
+                // open animation for menu 0 -> degree
+                animation = new RotateAnimation(0f, 90f, subMenuImage.getWidth() / 2, subMenuImage.getHeight() / 2);
             }
+
+            animation.setDuration(200);
+            animation.setFillAfter(true);
+            subMenuImage.startAnimation(animation);
+            listener.onActionMoreClicked(getPosition(), comment.getLeft() - (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, context.getResources().getDisplayMetrics()));
         }
     }
 
     public interface Listener {
-        public void onActionMoreClicked(int position, boolean isOpen);
+        public void onActionMoreClicked(int position, int left);
+        public boolean isActionBarOpen(int position);
     }
+
 }
