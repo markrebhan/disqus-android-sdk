@@ -12,9 +12,9 @@ import retrofit.http.Query;
 public interface ThreadPostsService {
 
     @GET("/3.0/threads/listPosts.json")
-    void getPosts(@Query("thread") String threadId, @Query("api_key") String apiKey, Callback<PaginatedList<Post>> posts);
+    void getPosts(@Query("thread") String threadId, Callback<PaginatedList<Post>> posts);
 
     @GET("/3.0/threads/listPosts.json")
-    void getNextPage(@Query("cursor") String cursorId, @Query("api_key") String apiKey, Callback<PaginatedList<Post>> posts);
+    void getNextPage(@Query("cursor") String cursorId, Callback<PaginatedList<Post>> posts);
 
 }

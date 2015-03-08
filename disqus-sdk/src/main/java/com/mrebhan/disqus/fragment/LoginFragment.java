@@ -14,20 +14,20 @@ import android.webkit.WebViewClient;
 
 import com.mrebhan.disqus.DisqusSdkProvider;
 import com.mrebhan.disqus.R;
+import com.mrebhan.disqus.auth.AuthManager;
 import com.mrebhan.disqus.services.AccessTokenService;
+import com.mrebhan.disqus.url.UrlParam;
 
 import javax.inject.Inject;
-
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
 
 /**
  * Login fragment handles OAuth login process and redirect
  */
-public class LoginFragment extends BaseFragment {
+public class LoginFragment extends BaseFragment implements AuthManager.AuthenticationListener {
+    private static final String AUTHORIZE_URL = "https://disqus.com/api/oauth/2.0/authorize/";
+
     @Inject
-    AccessTokenService accessTokenService;
+    AuthManager authManager;
 
     private Binder binder;
 
@@ -46,37 +46,56 @@ public class LoginFragment extends BaseFragment {
         webView.setWebViewClient(new MyWebViewClient());
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
-        webView.loadUrl( "https://disqus.com/api/oauth/2.0/authorize/?" +
-                        "client_id=" + DisqusSdkProvider.publicKey + "&" +
-                        "scope=read,write&" +
-                        "response_type=code&" +
-                        "redirect_uri=" + DisqusSdkProvider.redirectUri);
+        String url = new UrlParam.Builder(AUTHORIZE_URL).
+                addParam("client_id", DisqusSdkProvider.publicKey).
+                addParam("scope", "read,write").
+                addParam("response_type", "code").
+                addParam("redirect_uri", DisqusSdkProvider.redirectUri).
+                build().
+                getEncodedUrl();
+
+        webView.loadUrl(url);
 
         return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        authManager.addListener(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        authManager.removeListener(this);
+    }
+
+    @Override
+    public void onLogin() {
+        binder.onUserAuthenticated(true);
+    }
+
+    @Override
+    public void onLoginFailed(String error) {
+        binder.onUserAuthenticated(false);
+    }
+
+    @Override
+    public void onLogout() {
+        /** Not used**/
     }
 
     private class MyWebViewClient extends WebViewClient {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
             // catch the callback url
-            if (url.startsWith(DisqusSdkProvider.redirectUri)) {
+            if (url.contains(DisqusSdkProvider.redirectUri)) {
                 // parse the redirect url and login with the temp auth code;
                 Log.d("", "Got Url " + url);
                 Uri uri = Uri.parse(url);
                 String code = uri.getQueryParameter("code");
-                if (code != null) {
-                    accessTokenService.PostToken("authorization_code", DisqusSdkProvider.publicKey, DisqusSdkProvider.privateKey, DisqusSdkProvider.redirectUri, code, new Callback<String>() {
-                        @Override
-                        public void success(String s, Response response) {
-
-                        }
-
-                        @Override
-                        public void failure(RetrofitError error) {
-
-                        }
-                    });
-                }
+                authManager.authorizeAsync(code);
             }
 
             return super.shouldOverrideUrlLoading(view, url);
@@ -84,7 +103,7 @@ public class LoginFragment extends BaseFragment {
     }
 
     public interface Binder {
-        void onUserAuthenticated(); // navigate back to the parent fragment once the user is authenticated
+        void onUserAuthenticated(boolean success); // navigate back to the parent fragment once the user is authenticated
     }
 
     public interface BinderProvider {

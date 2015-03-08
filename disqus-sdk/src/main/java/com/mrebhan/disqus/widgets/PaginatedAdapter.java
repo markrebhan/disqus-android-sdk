@@ -50,6 +50,7 @@ public abstract class PaginatedAdapter<T extends Parcelable> extends RecyclerVie
             paginatedLists.add(list);
             allResourceItems.addAll(list.getResponseData());
             for (T item: list.getResponseData()) {
+                // TODO figure out reply logic and margining for it
                 positionMetaData.add(new PositionMetaData(ViewHolderType.COMMENT, allResourceItems.indexOf(item), 0));
             }
         }

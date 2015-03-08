@@ -1,7 +1,9 @@
 package com.mrebhan.disqus;
 
 import android.content.Context;
+import android.content.IntentFilter;
 
+import com.mrebhan.disqus.auth.RefreshTokenBroadcastReceiver;
 import com.mrebhan.disqus.fragment.PostsFragment;
 import com.mrebhan.disqus.json.GsonFactory;
 import com.mrebhan.disqus.services.ThreadPostsService;
@@ -18,6 +20,7 @@ import retrofit.converter.GsonConverter;
  * Client facing class to the Disqus SDK including configurations, authentication and DI setup
  */
 public class DisqusSdkProvider {
+    public static final String ACTION_REFRESH_TOKEN = "com.mrebhan.disqus.refresh_token";
 
     public static String publicKey;
     public static String privateKey;
@@ -31,6 +34,7 @@ public class DisqusSdkProvider {
         publicKey = builder.publicKey;
         privateKey = builder.privateKey;
         redirectUri = builder.redirectUri;
+        builder.appContext.registerReceiver(new RefreshTokenBroadcastReceiver(), new IntentFilter(ACTION_REFRESH_TOKEN));
     }
 
     public static DisqusSdkProvider getInstance() {
@@ -47,7 +51,7 @@ public class DisqusSdkProvider {
     }
 
     public static class Builder {
-
+        // TODO add api scoping
         private String publicKey;
         private String privateKey;
         private String redirectUri;

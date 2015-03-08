@@ -11,10 +11,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import com.melnykov.fab.FloatingActionButton;
 import com.mrebhan.disqus.DisqusSdkProvider;
 import com.mrebhan.disqus.R;
+import com.mrebhan.disqus.auth.AuthManager;
 import com.mrebhan.disqus.datamodel.PaginatedList;
 import com.mrebhan.disqus.datamodel.Post;
 import com.mrebhan.disqus.services.ThreadPostsService;
@@ -32,10 +34,11 @@ public class PostsFragment extends BaseFragment implements LoginFragment.BinderP
 
     @Inject
     ThreadPostsService threadPostsService;
+    @Inject
+    AuthManager authManager;
 
     private RecyclerView recyclerView;
     private FloatingActionButton addButton;
-    private FrameLayout loginChildContainer; // todo move this container to base fragment if changed
 
     private RecyclerView.LayoutManager layoutManager;
     private PostsAdapter adapter;
@@ -63,7 +66,7 @@ public class PostsFragment extends BaseFragment implements LoginFragment.BinderP
         } else {
             threadId = getArguments().getString(ARG_THREAD_ID);
             // get the first page of posts
-            threadPostsService.getPosts(threadId, DisqusSdkProvider.publicKey, new MyGetPostsCallback());
+            threadPostsService.getPosts(threadId, new MyGetPostsCallback());
         }
     }
 
@@ -78,8 +81,6 @@ public class PostsFragment extends BaseFragment implements LoginFragment.BinderP
         recyclerView.setAdapter(adapter);
         addButton = (FloatingActionButton) view.findViewById(R.id.button_add);
         addButton.setOnClickListener(new MyOnAddClickListener());
-
-        loginChildContainer = (FrameLayout) view.findViewById(R.id.loginChildContainer);
 
         return view;
     }
@@ -113,20 +114,26 @@ public class PostsFragment extends BaseFragment implements LoginFragment.BinderP
         @Override
         public void onClick(View v) {
             // if authenticated add comment row or show auth page
-            if (true) {
+            if (authManager.isAuthenticated()) {
                 adapter.addPostCommentRow();
             } else {
                 loginFragment = new LoginFragment();
-                getChildFragmentManager().beginTransaction().add(R.id.loginChildContainer, loginFragment).commit();
+                getChildFragmentManager().beginTransaction().add(R.id.loginChildContainer, loginFragment).addToBackStack(null).commit();
             }
         }
     }
 
     private class MyBinder implements LoginFragment.Binder {
+
         @Override
-        public void onUserAuthenticated() {
+        public void onUserAuthenticated(boolean success) {
             getChildFragmentManager().beginTransaction().remove(loginFragment).commit();
             loginFragment = null;
+
+            if (!success) {
+                Toast.makeText(getActivity(), "Error logging in. Please try again later.", Toast.LENGTH_SHORT).show();
+            }
+
         }
     }
 }

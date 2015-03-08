@@ -2,6 +2,8 @@ package com.mrebhan.disqus;
 
 import android.content.Context;
 
+import com.mrebhan.disqus.auth.AuthManager;
+import com.mrebhan.disqus.auth.RefreshTokenBroadcastReceiver;
 import com.mrebhan.disqus.fragment.ActionBarItem;
 import com.mrebhan.disqus.fragment.CommentItem;
 import com.mrebhan.disqus.fragment.LoginFragment;
@@ -10,6 +12,7 @@ import com.mrebhan.disqus.fragment.PostsFragment;
 import com.mrebhan.disqus.json.GsonFactory;
 import com.mrebhan.disqus.services.AccessTokenService;
 import com.mrebhan.disqus.services.ThreadPostsService;
+import com.mrebhan.disqus.url.RequestInterceptor;
 import com.squareup.picasso.LruCache;
 import com.squareup.picasso.OkHttpDownloader;
 import com.squareup.picasso.Picasso;
@@ -27,7 +30,10 @@ import retrofit.converter.GsonConverter;
                 PostsFragment.class,
                 PostsAdapter.class,
                 CommentItem.class,
-                ActionBarItem.class
+                ActionBarItem.class,
+
+                /** Receivers **/
+                RefreshTokenBroadcastReceiver.class,
         }
 )
 public class DisqusSdkDaggerModule {
@@ -40,13 +46,20 @@ public class DisqusSdkDaggerModule {
 
     @Singleton
     @Provides
-    RestAdapter providesRestAdapter() {
+    RestAdapter providesRestAdapter(RequestInterceptor requestInterceptor) {
         return new RestAdapter
                 .Builder()
                 .setLogLevel(RestAdapter.LogLevel.FULL)
                 .setEndpoint("https://disqus.com/api")
                 .setConverter(new GsonConverter(GsonFactory.newGsonInstance()))
+                .setRequestInterceptor(requestInterceptor)
                 .build();
+    }
+
+    @Provides
+    @Singleton
+    RequestInterceptor providesRequestInterceptor() {
+        return new RequestInterceptor();
     }
 
     @Provides
@@ -72,5 +85,11 @@ public class DisqusSdkDaggerModule {
     @Singleton
     Context providesContext() {
         return appContext;
+    }
+
+    @Provides
+    @Singleton
+    AuthManager providesAuthManager(AccessTokenService accessTokenService, RequestInterceptor requestInterceptor) {
+        return new AuthManager(appContext, accessTokenService, requestInterceptor);
     }
 }

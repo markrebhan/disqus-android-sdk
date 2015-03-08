@@ -31,7 +31,7 @@ public class PostsAdapter extends PaginatedAdapter<Post> {
 
     @Override
     protected void loadNextPage(String cursorId, Callback<PaginatedList<Post>> callback) {
-        threadPostsService.getNextPage(cursorId, DisqusSdkProvider.publicKey, callback);
+        threadPostsService.getNextPage(cursorId, callback);
     }
 
     @Override

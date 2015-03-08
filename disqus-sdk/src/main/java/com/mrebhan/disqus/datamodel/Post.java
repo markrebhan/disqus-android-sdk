@@ -23,7 +23,7 @@ public class Post implements Entity, Parcelable {
     Long parentId;
 
     @SerializedName("author")
-    Author author;
+    User author;
 
     @SerializedName("media")
     ArrayList<String> media;
@@ -73,7 +73,7 @@ public class Post implements Entity, Parcelable {
     public Post() {
     }
 
-    public Post(boolean isJuliaFlagged, boolean isFlagged, String forum, Long parentId, Author author, ArrayList<String> media, boolean isApproved, int dislikes, String rawMessage, String postId, String threadId, int points, Date createdDate, boolean isEdited, String message, boolean isHighlighted, String ipAddress, boolean isSpam, boolean isDeleted, int likes) {
+    public Post(boolean isJuliaFlagged, boolean isFlagged, String forum, Long parentId, User author, ArrayList<String> media, boolean isApproved, int dislikes, String rawMessage, String postId, String threadId, int points, Date createdDate, boolean isEdited, String message, boolean isHighlighted, String ipAddress, boolean isSpam, boolean isDeleted, int likes) {
         this.isJuliaFlagged = isJuliaFlagged;
         this.isFlagged = isFlagged;
         this.forum = forum;
@@ -112,7 +112,7 @@ public class Post implements Entity, Parcelable {
         return parentId;
     }
 
-    public Author getAuthor() {
+    public User getAuthor() {
         return author;
     }
 
@@ -210,7 +210,7 @@ public class Post implements Entity, Parcelable {
         this.isFlagged = in.readByte() != 0;
         this.forum = in.readString();
         this.parentId = (Long) in.readValue(Long.class.getClassLoader());
-        this.author = in.readParcelable(Author.class.getClassLoader());
+        this.author = in.readParcelable(User.class.getClassLoader());
         this.media = (ArrayList<String>) in.readSerializable();
         this.isApproved = in.readByte() != 0;
         this.dislikes = in.readInt();

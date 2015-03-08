@@ -5,7 +5,7 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Author implements Parcelable {
+public class User implements Parcelable {
 
     @SerializedName("username")
     String username;
@@ -40,10 +40,10 @@ public class Author implements Parcelable {
     @SerializedName("email")
     String email;
 
-    public Author() {
+    public User() {
     }
 
-    public Author(String username, String about, String name, String url, boolean isFollowing, boolean isFollowedBy, String profileUrl, Avatar avatar, String id, boolean isAnonymous, String email) {
+    public User(String username, String about, String name, String url, boolean isFollowing, boolean isFollowedBy, String profileUrl, Avatar avatar, String id, boolean isAnonymous, String email) {
         this.username = username;
         this.about = about;
         this.name = name;
@@ -122,7 +122,7 @@ public class Author implements Parcelable {
         dest.writeString(this.email);
     }
 
-    private Author(Parcel in) {
+    private User(Parcel in) {
         this.username = in.readString();
         this.about = in.readString();
         this.name = in.readString();
@@ -136,13 +136,13 @@ public class Author implements Parcelable {
         this.email = in.readString();
     }
 
-    public static final Parcelable.Creator<Author> CREATOR = new Parcelable.Creator<Author>() {
-        public Author createFromParcel(Parcel source) {
-            return new Author(source);
+    public static final Parcelable.Creator<User> CREATOR = new Parcelable.Creator<User>() {
+        public User createFromParcel(Parcel source) {
+            return new User(source);
         }
 
-        public Author[] newArray(int size) {
-            return new Author[size];
+        public User[] newArray(int size) {
+            return new User[size];
         }
     };
 }
