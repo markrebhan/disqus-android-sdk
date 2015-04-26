@@ -22,10 +22,10 @@ public class User implements Parcelable {
     @SerializedName("isFollowing")
     boolean isFollowing;
 
-    @SuppressWarnings("isFollowedBy")
+    @SerializedName("isFollowedBy")
     boolean isFollowedBy;
 
-    @SuppressWarnings("profileUrl")
+    @SerializedName("profileUrl")
     String profileUrl;
 
     @SerializedName("avatar")

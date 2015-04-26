@@ -7,12 +7,15 @@ import com.mrebhan.disqus.auth.RefreshTokenBroadcastReceiver;
 import com.mrebhan.disqus.fragment.ActionBarItem;
 import com.mrebhan.disqus.fragment.CommentItem;
 import com.mrebhan.disqus.fragment.LoginFragment;
+import com.mrebhan.disqus.fragment.PostCommentItem;
 import com.mrebhan.disqus.fragment.PostsAdapter;
 import com.mrebhan.disqus.fragment.PostsFragment;
 import com.mrebhan.disqus.json.GsonFactory;
 import com.mrebhan.disqus.services.AccessTokenService;
 import com.mrebhan.disqus.services.ThreadPostsService;
+import com.mrebhan.disqus.services.UserService;
 import com.mrebhan.disqus.url.RequestInterceptor;
+import com.mrebhan.disqus.user.CurrentUserManager;
 import com.squareup.picasso.LruCache;
 import com.squareup.picasso.OkHttpDownloader;
 import com.squareup.picasso.Picasso;
@@ -31,6 +34,7 @@ import retrofit.converter.GsonConverter;
                 PostsAdapter.class,
                 CommentItem.class,
                 ActionBarItem.class,
+                PostCommentItem.class,
 
                 /** Receivers **/
                 RefreshTokenBroadcastReceiver.class,
@@ -72,6 +76,11 @@ public class DisqusSdkDaggerModule {
         return restAdapter.create(AccessTokenService.class);
     }
 
+    @Provides
+    UserService providesUserService(RestAdapter restAdapter) {
+        return restAdapter.create(UserService.class);
+    }
+
     @Singleton
     @Provides
     Picasso providesPicasso() {
@@ -89,7 +98,13 @@ public class DisqusSdkDaggerModule {
 
     @Provides
     @Singleton
-    AuthManager providesAuthManager(AccessTokenService accessTokenService, RequestInterceptor requestInterceptor) {
-        return new AuthManager(appContext, accessTokenService, requestInterceptor);
+    AuthManager providesAuthManager(AccessTokenService accessTokenService, RequestInterceptor requestInterceptor, CurrentUserManager currentUserManager) {
+        return new AuthManager(appContext, accessTokenService, requestInterceptor, currentUserManager);
+    }
+
+    @Provides
+    @Singleton
+    CurrentUserManager providesCurrentUserManager(UserService userService) {
+        return new CurrentUserManager(userService);
     }
 }

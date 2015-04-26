@@ -10,6 +10,7 @@ import com.mrebhan.disqus.DisqusSdkProvider;
 import com.mrebhan.disqus.datamodel.AccessToken;
 import com.mrebhan.disqus.services.AccessTokenService;
 import com.mrebhan.disqus.url.RequestInterceptor;
+import com.mrebhan.disqus.user.CurrentUserManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,14 +37,16 @@ public class AuthManager {
     private Context appContext;
     private AccessTokenService accessTokenService;
     private RequestInterceptor requestInterceptor;
+    private CurrentUserManager currentUserManager;
 
     private List<AuthenticationListener> listeners = new ArrayList<>();
 
     @Inject
-    public AuthManager(Context appContext, AccessTokenService accessTokenService, RequestInterceptor requestInterceptor) {
+    public AuthManager(Context appContext, AccessTokenService accessTokenService, RequestInterceptor requestInterceptor, CurrentUserManager currentUserManager) {
         this.appContext = appContext;
         this.accessTokenService = accessTokenService;
         this.requestInterceptor = requestInterceptor;
+        this.currentUserManager = currentUserManager;
         checkRefresh();
         setRequestInterceptor();
     }
@@ -74,7 +77,6 @@ public class AuthManager {
 
     public void authorizeAsync(String code) {
         if (code != null) {
-            requestInterceptor.setIncludeApiKey(false); // do not send api keys with this request.
             accessTokenService.PostToken("authorization_code", DisqusSdkProvider.publicKey, DisqusSdkProvider.privateKey, DisqusSdkProvider.redirectUri, code, new MyGetAccessTokensCallback(true));
         } else {
             throw new NullPointerException("Code must be a non-null string!");
@@ -83,7 +85,6 @@ public class AuthManager {
 
     public void postRefreshTokenAsync() {
         if (getRefreshToken() != null) {
-            requestInterceptor.setIncludeApiKey(false); // do not send api keys with this request.
             accessTokenService.PostRefreshToken("refresh_token", DisqusSdkProvider.publicKey, DisqusSdkProvider.privateKey, getRefreshToken(), new MyGetAccessTokensCallback(false));
         }
     }
@@ -148,7 +149,6 @@ public class AuthManager {
 
         @Override
         public void success(AccessToken accessToken, Response response) {
-            requestInterceptor.setIncludeApiKey(true);
             if (response.getStatus() == 200) {
                 writeToSharedPrefs(accessToken); // save access token data to shared prefs.
                 setupAlarm(); // setup refresh token alarm.
@@ -157,6 +157,7 @@ public class AuthManager {
                 if (isLogin) {
                     for (AuthenticationListener listener : listeners) {
                         listener.onLogin(); // notify listeners about login.
+                        currentUserManager.getCurrentUser(null, true); // force a network call to get current user and add to memory.
                     }
                 }
             } else {
@@ -175,7 +176,6 @@ public class AuthManager {
 
         @Override
         public void failure(RetrofitError error) {
-            requestInterceptor.setIncludeApiKey(true);
             if (isLogin) {
                 for (AuthenticationListener listener : listeners) {
                     listener.onLoginFailed(error.getKind().name());
